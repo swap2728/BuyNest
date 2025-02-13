@@ -26,11 +26,11 @@ const cors = require('cors');
 const req = require('express/lib/request');
 const path = require('path');
 
-const SECRET_KEY = 'SECRET_KEY';
+
 
 const opts = {}
 opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = SECRET_KEY;
+opts.secretOrKey = process.env.SECRET_KEY;
 
 server.use(express.static(path.resolve(__dirname, 'dist')));
 server.use(cookieParser())
@@ -68,7 +68,7 @@ passport.use( 'local',
          if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
             return done(null,false,{message:'invalid credentials'}) 
         } 
-            const token = jwt.sign(sanitizeUser(user),SECRET_KEY)
+            const token = jwt.sign(sanitizeUser(user),process.env.SECRET_KEY)
             done(null,{id:user.id,role:user.role,token})
         //   res.status(401).json({ message: 'invalid credentials' });
         })
