@@ -32,7 +32,7 @@ const opts = {}
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.SECRET_KEY;
 
-server.use(express.static(path.resolve(__dirname, 'dist')));
+server.use(express.static(path.resolve(__dirname, 'build')));
 server.use(cookieParser())
 server.use(session({ secret: process.env.SESSION_KEY, resave: false, saveUninitialized: false }));
 server.use(passport.authenticate('session'));
@@ -52,7 +52,7 @@ server.use('/auth', authRouter.router)
 server.use('/cart',isAuth(), cartRouter.router)
 
 server.get('*', (req, res) =>
-  res.sendFile(path.resolve('dist', 'index.html'))
+  res.sendFile(path.resolve('build', 'index.html'))
 );
 
 passport.use( 'local',
